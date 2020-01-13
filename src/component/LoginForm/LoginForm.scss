@@ -1,0 +1,101 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:300,400,700");
+
+/*https://colorhunt.co/palette/135960*/
+
+.Login__form {
+  min-width: 350px;
+  margin: 5px;
+  border: 2px solid white;
+  border-radius: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: 80vh;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.Login__title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+.Login__form--title {
+  font-family: "Lato", "Helvetica Neue", sans-serif;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: transparent;
+}
+.Login__form--img {
+  width: 48px;
+  height: 48px;
+  background-color: transparent;
+}
+.Login__form--form {
+  background-color: transparent;
+}
+
+.Login__item {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 10px 15px 10px;
+  background-color: transparent;
+}
+.Login__item--input {
+  width: 90%;
+  height: 40px;
+  border-bottom: 1px solid white;
+  padding-left: 10px;
+  color: white;
+  margin-bottom: 20px;
+  font-family: "Lato", "Helvetica Neue", sans-serif;
+  background-color: transparent;
+}
+::placeholder {
+  color: white;
+}
+
+.Login__button {
+  width: 85%;
+  height: 40px;
+  border: 1px solid white;
+  border-radius: 20px;
+  color: white;
+  background-color: transparent;
+}
+.Login__action {
+  width: 100%;
+  margin: 0;
+  padding-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  font-family: "Lato", "Helvetica Neue", sans-serif;
+  color: white;
+  background-color: transparent;
+}
+.Login__action > a {
+  color: white;
+}
+.Login__action > a:hover {
+  text-decoration: underline;
+}
+.Login__link {
+  display: flex;
+  background-color: transparent;
+}
+.Login__link > a {
+  color: white;
+}
+.Login__link > a:hover {
+  text-decoration: underline;
+}
+.Login__link > a {
+  font-weight: bold;
+  padding-left: 5px;
+}

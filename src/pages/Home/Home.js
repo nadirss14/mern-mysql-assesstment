@@ -1,9 +1,9 @@
 import React from "react";
 import "./Home.scss";
-
+import Navbar from "../../component/Navbar/Navbar";
 class Home extends React.Component {
   render() {
-    return <h1>Init App</h1>;
+    return <Navbar styles='Header__dark'></Navbar>;
   }
 }
 
