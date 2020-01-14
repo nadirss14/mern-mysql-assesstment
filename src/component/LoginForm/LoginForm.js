@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router";
+import { setCookie } from "../../lib/sesions";
+import { validateCredentials } from "../../lib/validation";
 import Error from "../Error/Error";
 import Loading from "../Loading/Loading";
 import logo_system from "../../assets/images/usuario-masculino-48.png";
@@ -23,11 +25,22 @@ class LoginForm extends React.Component {
   }
 
   handleOnClickLogin = async () => {
-    this.setState({ loading: true });
+    this.setState({ loading: true, redirect: false });
     const query = {
       "user.email": this.state.form.email,
       "user.password": this.state.form.password
     };
+
+    const isError = validateCredentials(
+      this.state.form.email,
+      this.state.form.password
+    );
+
+    if (isError) {
+      this.setState({ loading: false, redirect: false });
+      swal("Oops!", isError, "error");
+      return isError;
+    }
 
     try {
       const options = {};
@@ -42,16 +55,22 @@ class LoginForm extends React.Component {
         options
       );
       const value = await response.json();
-      console.log(value);
       if (value.length > 0) {
+        const authUser = JSON.parse(JSON.stringify(value[0]), (k, v) => {
+          if (k === "password" || k === "_id") {
+            return "";
+          }
+          return v;
+        });
+        setCookie("auth-user", { ...authUser, isAuth: true });
         this.setState({ loading: false, redirect: true });
       } else {
+        swal("Oops!", "Email o password incorrectos!", "error");
         this.setState({ loading: false, redirect: false });
-        swal("Oops!", "Email or password wrong!", "error");
       }
     } catch (error) {
+      swal("Oops!", error.message, "error");
       this.setState({ loading: false, error: true, msgError: { ...error } });
-      console.log(`Error: ${error}`);
     }
   };
 

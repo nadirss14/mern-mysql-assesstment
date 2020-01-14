@@ -3,6 +3,7 @@ import { Redirect } from "react-router";
 import Error from "../Error/Error";
 import Loading from "../Loading/Loading";
 import logo_system from "../../assets/images/usuario-masculino-48.png";
+import { validateNewUser } from "../../lib/validation";
 import swal from "sweetalert";
 import "./RegisterForm.scss";
 
@@ -25,43 +26,48 @@ class RegisterForm extends React.Component {
   }
 
   handleOnClickRegister = async () => {
-    this.setState({ loading: true });
-    if (this.state.form.password === this.state.form.confirmPassword) {
-      const query = {
-        firstName: this.state.form.firstName,
-        lastName: this.state.form.lastName,
-        email: this.state.form.email,
-        password: this.state.form.password,
-        verified: false
-      };
+    this.setState({ loading: true, redirect: false });
+    const isError = validateNewUser(
+      `${this.state.form.firstName} ${this.state.form.lastName}`,
+      this.state.form.email,
+      this.state.form.password,
+      this.state.form.confirmPassword
+    );
 
-      try {
-        const options = {};
-        options.method = "POST";
-        options.body = JSON.stringify(query);
-        options.headers = new Headers({
-          "Content-Type": "application/json; charset=utf-8"
-        });
-
-        const response = await fetch(
-          "http://localhost:3001/api/v1/user",
-          options
-        );
-        const value = await response.json();
-        console.log(value);
-        if (value._id) {
-          this.setState({ loading: false, redirect: true });
-        } else {
-          this.setState({ loading: false, redirect: false });
-          swal("Oops!", "Error on register user! ", "error");
-        }
-      } catch (error) {
-        this.setState({ loading: false, error: true, msgError: { ...error } });
-        console.log(`Error: ${error}`);
-      }
-    } else {
+    if (isError) {
       this.setState({ loading: false, redirect: false });
-      swal("Oops!", "Password dont match!", "error");
+      swal("Oops!", isError, "error");
+      return isError;
+    }
+    const query = {
+      firstName: this.state.form.firstName,
+      lastName: this.state.form.lastName,
+      email: this.state.form.email,
+      password: this.state.form.password,
+      verified: false
+    };
+
+    try {
+      const options = {};
+      options.method = "POST";
+      options.body = JSON.stringify(query);
+      options.headers = new Headers({
+        "Content-Type": "application/json; charset=utf-8"
+      });
+
+      const response = await fetch(
+        "http://localhost:3001/api/v1/user",
+        options
+      );
+      const value = await response.json();
+      if (value._id) {
+        this.setState({ loading: false, redirect: true });
+      } else {
+        this.setState({ loading: false, redirect: false });
+        swal("Oops!", "Error al registrar al usuario! ", "error");
+      }
+    } catch (error) {
+      this.setState({ loading: false, error: true, msgError: { ...error } });
     }
   };
 
