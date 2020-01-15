@@ -15,6 +15,7 @@ class Chart extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.setState({ loading: true });
     if (typeof nextProps !== "undefined") {
+      console.log(nextProps.config);
       this.setState({ loading: false, config: nextProps.config, load: true });
     } else {
       this.setState({ load: true });
@@ -22,6 +23,7 @@ class Chart extends React.Component {
   }
   render() {
     if (!this.state.load) {
+      console.log("aqui");
       return "";
     }
     if (this.state.loading) {

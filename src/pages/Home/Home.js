@@ -4,6 +4,7 @@ import Chart from "../../component/Chart/Chart";
 import { Redirect } from "react-router";
 import Error from "../../component/Error/Error";
 import Loading from "../../component/Loading/Loading";
+import { getBaseUrl } from "../../lib/api";
 import swal from "sweetalert";
 import "./Home.scss";
 
@@ -28,11 +29,11 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.handleChart();
-    // this.test();
+    //this.handleInterval();
   }
 
-  test = () => {
-    this.intervalID = setInterval(this.handleChart, 2000);
+  handleInterval = () => {
+    this.intervalID = setInterval(this.handleChart, 5000 * 2);
   };
 
   componentWillUnmount() {
@@ -40,15 +41,22 @@ class Home extends React.Component {
   }
 
   handleChart = async () => {
+    this.setState({
+      loading: true,
+      redirect: false,
+      error: false,
+      msgError: {}
+    });
     try {
       const options = {};
       options.method = "GET";
       options.headers = new Headers({
         "Content-Type": "application/json; charset=utf-8"
       });
-
+      console.log(`${getBaseUrl}agent`);
       const response = await fetch(
-        "http://localhost:3001/api/v1/agent",
+        `${getBaseUrl}agent`,
+        // "http://localhost:3001/api/v1/agent",
         options
       );
       const value = await response.json();
@@ -57,6 +65,8 @@ class Home extends React.Component {
       if (value.length) {
         lineChart = this.handleLineChart(value);
         barChar = this.handleBarChart(value);
+        console.log(lineChart);
+        console.log(barChar);
         this.setState({
           config: [lineChart, barChar],
           loading: false,
@@ -67,7 +77,8 @@ class Home extends React.Component {
         this.setState({
           config: [lineChart, barChar],
           loading: false,
-          redirect: false
+          redirect: false,
+          msgError: {}
         });
       }
     } catch (error) {
@@ -84,7 +95,6 @@ class Home extends React.Component {
       AxisX.push(element.agent.country);
       serie.push(element.agent.commisions);
     });
-
     return {
       chart: { type: "line" },
       title: { text: "Nombre del Grafico" },
@@ -125,6 +135,27 @@ class Home extends React.Component {
     };
   };
 
+  handleClearData = async () => {
+    this.setState({ loading: true, error: false, msgError: {} });
+    try {
+      const options = {};
+      options.method = "DELETE";
+      options.headers = new Headers({
+        "Content-Type": "application/json; charset=utf-8"
+      });
+
+      const response = await fetch(
+        `${getBaseUrl}agent/cleardata`,
+        // "http://localhost:3001/api/v1/agent",
+        options
+      );
+      const value = await response.json();
+      this.setState({ loading: false, error: false, msgError: {} });
+    } catch (error) {
+      this.setState({ loading: false, error: true, msgError: { ...error } });
+    }
+  };
+
   render() {
     if (this.state.loading) {
       return <Loading />;
@@ -133,11 +164,18 @@ class Home extends React.Component {
       return <Redirect push to='/' />;
     }
     if (this.state.error) {
-      return <Error Error={this.state.error} />;
+      console.log("aqui");
+      return <Error Error={this.state.msgError} />;
     }
     return (
       <React.Fragment>
         <Navbar styles='Header__dark'></Navbar>
+        <button
+          type='button'
+          className='Home__button'
+          onClick={this.handleClearData}>
+          CLEAR DATA
+        </button>
         <section className='Chart__container'>
           <Chart config={this.state.config[0]} />
           <Chart config={this.state.config[1]} />

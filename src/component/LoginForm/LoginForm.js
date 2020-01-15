@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Redirect } from "react-router";
 import { setCookie } from "../../lib/sesions";
 import { validateCredentials } from "../../lib/validation";
+import { getBaseUrl } from "../../lib/api";
 import Error from "../Error/Error";
 import Loading from "../Loading/Loading";
 import logo_system from "../../assets/images/usuario-masculino-48.png";
@@ -50,13 +51,16 @@ class LoginForm extends React.Component {
         "Content-Type": "application/json; charset=utf-8"
       });
 
+      //console.log(`${getBaseUrl}user/login`);
+
       const response = await fetch(
-        "http://localhost:3001/api/v1/user/login",
+        `${getBaseUrl}user/login`,
+        // "http://localhost:3001/api/v1/user/login",
         options
       );
       const value = await response.json();
-      if (value.length > 0) {
-        const authUser = JSON.parse(JSON.stringify(value[0]), (k, v) => {
+      if (value) {
+        const authUser = JSON.parse(JSON.stringify(value), (k, v) => {
           if (k === "password" || k === "_id") {
             return "";
           }
