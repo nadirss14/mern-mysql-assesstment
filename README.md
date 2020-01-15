@@ -1,2 +1,1 @@
-# mern-mysql-assesstment
-Mongo, Express, React, Node y Mysql
+## MondoDB, ExpressJS, ReactJS, NodeJS and MySql

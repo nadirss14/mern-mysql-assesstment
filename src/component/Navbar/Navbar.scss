@@ -1,0 +1,144 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:300,400,700");
+
+// @import "../../global-style/global.scss";
+$primary-color: #ffffff;
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.Header__light {
+  /* https://colorhunt.co/palette/66129   */
+
+  background-image: linear-gradient(to right, #62d2a2, #1fab89);
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.Header__light a {
+  color: white;
+  font-size: medium;
+  font-family: "Lato";
+  text-align: center;
+}
+.Header__dark {
+  /*https://colorhunt.co/palette/141100*/
+  background-image: linear-gradient(to right, #115173, #022c43);
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Header__dark a {
+  color: $primary-color;
+  font-size: medium;
+  font-family: "Lato";
+  text-align: center;
+}
+
+.Header__menu {
+  width: 60%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: inherit;
+}
+
+.Header__menu ul {
+  display: flex;
+  align-content: center;
+  list-style: none;
+  height: inherit;
+}
+
+.Header__menu li {
+  min-width: 25%;
+  height: 67px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.Header__menu li:hover {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.underline-red {
+  border-block-end: 3px solid rgba(255, 0, 0, 0.6);
+}
+.underline-blue {
+  border-block-end: 3px solid rgba(0, 0, 255, 0.6);
+}
+.underline-green {
+  border-block-end: 3px solid rgba(0, 255, 0, 0.6);
+}
+.underline-yellow {
+  border-block-end: 3px solid rgba(255, 238, 0, 0.6);
+}
+
+a {
+  height: inherit;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+img {
+  height: 50px;
+  width: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.Header__search {
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+  height: inherit;
+}
+
+.Header__search > ul {
+  display: flex;
+  align-content: center;
+  list-style: none;
+  height: inherit;
+}
+
+.Header__search > li {
+  min-width: 25%;
+  height: 67px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.Header__search > li:hover {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.Header__search h4 {
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+
+.Header__search--button {
+  border: 0;
+  margin: 0;
+  padding-left: 5px;
+  width: 100px;
+  height: 100%;
+  color: white;
+  font-size: large;
+  font-family: "Lato";
+  text-align: center;
+  font-weight: bold;
+  background-color: inherit;
+}
+
+.Header__search--button:hover {
+  font-weight: bold;
+  text-decoration: underline;
+}
