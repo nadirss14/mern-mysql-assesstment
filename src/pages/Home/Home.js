@@ -5,7 +5,6 @@ import { Redirect } from "react-router";
 import Error from "../../component/Error/Error";
 import Loading from "../../component/Loading/Loading";
 import { getBaseUrl } from "../../lib/api";
-import swal from "sweetalert";
 import "./Home.scss";
 
 class Home extends React.Component {
@@ -116,18 +115,33 @@ class Home extends React.Component {
   };
 
   handleBarChart = value => {
-    const AxisY = [];
-    const AxisX = [];
-    const serie = [];
+    let AxisY = [];
+    let AxisX = [];
+    let serie = [];
     value.forEach(element => {
       AxisY.push(element.agent.agentName);
       AxisX.push(element.agent.country);
       serie.push([element.agent.country, element.agent.commisions]);
     });
+    AxisX = [...new Set(AxisX)];
 
+    let data = [];
+    AxisX.forEach((value, index) => {
+      console.log(`Element: ${value}`);
+      let valor = 0;
+      serie.forEach((val, ind) => {
+        if (value === val[0]) {
+          valor = valor + val[1];
+        }
+      });
+      data.push([value, valor]);
+    });
+    console.log(AxisX);
+    console.log(data);
+    serie = data;
     return {
       chart: { type: "pie" },
-      title: { text: "Nombre del Grafico" },
+      title: { text: "Comisiones por pais" },
       xAxis: {
         categories: AxisY,
         paises: AxisX
@@ -155,7 +169,12 @@ class Home extends React.Component {
         options
       );
       await response.json();
-      this.setState({ loading: false, error: false, msgError: {} });
+      this.setState({
+        config: [[], []],
+        loading: false,
+        error: false,
+        msgError: {}
+      });
     } catch (error) {
       this.setState({ loading: false, error: true, msgError: error });
     }

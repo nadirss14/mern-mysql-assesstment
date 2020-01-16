@@ -4,7 +4,8 @@ export const validateNewUser = (
   password,
   password_confirmation
 ) => {
-  if (!name) {
+  console.log(name);
+  if (!name || name.toString().trim() === "") {
     return "El campo Nombres es requerido.";
   }
 

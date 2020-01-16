@@ -49,7 +49,7 @@ class Navbar extends React.Component {
       <header>
         <nav className={this.props.styles}>
           <div className='Header__menu'>
-            <a href='/' alt='logo'>
+            <a href='/Home' alt='logo'>
               {<img src={image} alt='logo'></img>}
             </a>
             <ul>
