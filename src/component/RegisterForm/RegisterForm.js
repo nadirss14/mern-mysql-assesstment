@@ -98,16 +98,16 @@ class RegisterForm extends React.Component {
       return <Error Error={this.state.error} />;
     }
     return (
-      <section className='Login__form'>
-        <section className='Login__title'>
-          <img className='Login__form--img' alt='login' src={logo_system} />
-          <h2 className='Login__form--title'>Registrate</h2>
+      <section className='Register__form'>
+        <section className='Register__title'>
+          <img className='Register__form--img' alt='login' src={logo_system} />
+          <h2 className='Register__form--title'>Registrate</h2>
         </section>
-        <form className='Login__form--form'>
-          <section className='Login__item'>
+        <form className='Register__form--form'>
+          <section className='Register__item'>
             <input
               type='text'
-              className='Login__item--input'
+              className='Register__item--input'
               placeholder='Nombres'
               name='firstName'
               onChange={this.handleChange}
@@ -115,7 +115,7 @@ class RegisterForm extends React.Component {
             />
             <input
               type='text'
-              className='Login__item--input'
+              className='Register__item--input'
               placeholder='Apellidos'
               name='lastName'
               onChange={this.handleChange}
@@ -123,7 +123,7 @@ class RegisterForm extends React.Component {
             />
             <input
               type='text'
-              className='Login__item--input'
+              className='Register__item--input'
               placeholder='Email (juan.perez@domain.com)'
               name='email'
               onChange={this.handleChange}
@@ -131,7 +131,7 @@ class RegisterForm extends React.Component {
             />
             <input
               type='password'
-              className='Login__item--input'
+              className='Register__item--input'
               placeholder='Password'
               name='password'
               onChange={this.handleChange}
@@ -139,17 +139,17 @@ class RegisterForm extends React.Component {
             />
             <input
               type='password'
-              className='Login__item--input'
+              className='Register__item--input'
               placeholder='Confirm password'
               name='confirmPassword'
               onChange={this.handleChange}
               value={this.state.form.confirmPassword}
             />
           </section>
-          <section className='Login__item'>
+          <section className='Register__item'>
             <button
               type='button'
-              className='Login__button'
+              className='Register__button'
               onClick={this.handleOnClickRegister}>
               Save
             </button>

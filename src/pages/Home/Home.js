@@ -16,6 +16,7 @@ class Home extends React.Component {
       error: false,
       msgError: {},
       loading: false,
+      isData: true,
       config: [
         {
           title: { text: "" },
@@ -29,7 +30,7 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.handleChart();
-    //this.handleInterval();
+    this.handleInterval();
   }
 
   handleInterval = () => {
@@ -45,6 +46,7 @@ class Home extends React.Component {
       loading: true,
       redirect: false,
       error: false,
+      isData: true,
       msgError: {}
     });
     try {
@@ -62,27 +64,30 @@ class Home extends React.Component {
       const value = await response.json();
       let lineChart = [];
       let barChar = [];
+
       if (value.length) {
         lineChart = this.handleLineChart(value);
         barChar = this.handleBarChart(value);
-        console.log(lineChart);
-        console.log(barChar);
         this.setState({
           config: [lineChart, barChar],
           loading: false,
           redirect: false
         });
       } else {
-        swal("Oops!", "Error en la carga de los datos! ", "error");
         this.setState({
           config: [lineChart, barChar],
           loading: false,
           redirect: false,
-          msgError: {}
+          msgError: {},
+          isData: false
         });
       }
     } catch (error) {
-      this.setState({ loading: false, error: true, msgError: { ...error } });
+      this.setState({
+        loading: false,
+        error: true,
+        msgError: { error }
+      });
     }
   };
 
@@ -97,7 +102,7 @@ class Home extends React.Component {
     });
     return {
       chart: { type: "line" },
-      title: { text: "Nombre del Grafico" },
+      title: { text: "Comisiones por Agente" },
       xAxis: {
         categories: AxisY,
         paises: AxisX
@@ -124,8 +129,8 @@ class Home extends React.Component {
       chart: { type: "pie" },
       title: { text: "Nombre del Grafico" },
       xAxis: {
-        // categories: AxisY,
-        // paises: AxisX
+        categories: AxisY,
+        paises: AxisX
       },
       series: [
         {
@@ -139,20 +144,20 @@ class Home extends React.Component {
     this.setState({ loading: true, error: false, msgError: {} });
     try {
       const options = {};
-      options.method = "DELETE";
+      options.method = "POST";
       options.headers = new Headers({
         "Content-Type": "application/json; charset=utf-8"
       });
 
       const response = await fetch(
         `${getBaseUrl}agent/cleardata`,
-        // "http://localhost:3001/api/v1/agent",
+        //"http://localhost:3001/api/v1/agent/cleardata",
         options
       );
-      const value = await response.json();
+      await response.json();
       this.setState({ loading: false, error: false, msgError: {} });
     } catch (error) {
-      this.setState({ loading: false, error: true, msgError: { ...error } });
+      this.setState({ loading: false, error: true, msgError: error });
     }
   };
 
@@ -164,12 +169,18 @@ class Home extends React.Component {
       return <Redirect push to='/' />;
     }
     if (this.state.error) {
-      console.log("aqui");
       return <Error Error={this.state.msgError} />;
     }
     return (
       <React.Fragment>
         <Navbar styles='Header__dark'></Navbar>
+        {this.state.isData ? (
+          ""
+        ) : (
+          <div>
+            <p className='Home__message'>No hay data para mostrar....</p>
+          </div>
+        )}
         <button
           type='button'
           className='Home__button'

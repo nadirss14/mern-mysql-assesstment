@@ -7,23 +7,28 @@ class Chart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      config: {},
+      config: {
+        // chart: { type: "line" },
+        // title: { text: "Comisiones por Agente" },
+        // xAxis: {
+        //   categories: ["JUAN", "PEDRO", "JUAN"]
+        // },
+        // series: [
+        //   {
+        //     data: [100, 200, 85]
+        //   }
+        // ]
+      },
       load: false,
       loading: false
     };
   }
-  componentWillReceiveProps(nextProps) {
+  componentDidMount() {
     this.setState({ loading: true });
-    if (typeof nextProps !== "undefined") {
-      console.log(nextProps.config);
-      this.setState({ loading: false, config: nextProps.config, load: true });
-    } else {
-      this.setState({ load: true });
-    }
+    this.setState({ loading: false, config: this.props.config, load: true });
   }
   render() {
     if (!this.state.load) {
-      console.log("aqui");
       return "";
     }
     if (this.state.loading) {
